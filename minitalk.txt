@@ -1,0 +1,10 @@
+SIGUSR1 et SIGUSR2 ?
+    SIGUSR1 et SIGUSR2 sont des signaux speciaux utiliser pa les systemes d'exploitation pour indiqquer une demande d'utilisateur.
+    Ces signaux sont generalement utilises pour envoyer des commandes ou des demandes a un processus en cours d'excecution, plutot que pour signaler
+        une erreur ou une condition d'arret.
+    Les utilisateurs peuvent envoyer des signaux a des processus en cours d'excecution en utilisant des outils tels que "kill, pkill" en ligne de commande.
+    La difference entre les deux est que SIGUSR1 est utiliser pour envoyer des commandes ou des demandes specifiques a un processus,
+    alors que SIGUSR2 est reserver a un usage specifique determiner par l'utilisateur.
+    En general, les processus peuvent choisir de ne pas traiter les signaux usr1 ou usr2 ou de les utiliser de maniere personaliser pour implementeer des fonctionnalites specifiques.
+    Dans ce code la fonction ft_handler est declarer pour gerer les deux signaux mais ne traite que SIGUSR1.
+
