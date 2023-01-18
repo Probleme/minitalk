@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: problem <problem@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 15:04:47 by problem           #+#    #+#             */
-/*   Updated: 2023/01/10 19:19:48 by problem          ###   ########.fr       */
+/*   Created: 2023/01/17 02:08:20 by ataouaf           #+#    #+#             */
+/*   Updated: 2023/01/18 15:53:24 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
-
-
 
 void	ft_send_bits(int pid, char i)
 {
@@ -48,8 +46,8 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		ft_printf("\033[91mError: wrong format.\033[0m\n");
-		ft_printf("\033[33mTry: ./client <PID> <MESSAGE>\033[0m\n");
+		ft_printf("Error: wrong format.\n");
+		ft_printf("Try: ./client <PID> <MESSAGE>\n");
 	}
 	return (0);
 }
