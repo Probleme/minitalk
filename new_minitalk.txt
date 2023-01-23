@@ -1,0 +1,50 @@
+Informations :
+    Process:
+        a process is a program being executed by a computer.
+    Signal :
+        a signal is a electronic message used to communicate informations or instructions to a system or a program.
+    Sent signals :
+        the function kill() is used to sent signal to process or process group.
+
+getpid function :
+    Definition:
+        PID :
+            a pid is a unique non-negative integer assigned by the os to a process when it is created.
+        getpid function :
+            getpid is a function that returns the process ID of the calling process.
+
+Kill function :
+    kill function is used to send signal to a peocess or a group of process. the signal is use to terminate, interrupt a process or communicate with process. it takes two arguments :
+        the first argument is the process id of the process or group of processes to which the signal should be sent.
+        the second argument is the signal that should be sent.
+    in our program, the client uses kill() to send SIGUSR1 and SIGUSR2 signals to the server.
+    the client calls kill(pid, SIGUSR1) to send SIGUSR1 signal to server to indicate a 1 bit, and kill(pid, SIGUSR2) to send a SIGUSR2 signal to the server to indicate a 0 bit.
+
+sigaction:
+    sigaction struct :
+        sigaction struct is used to specify the action taken by a process when a particular signal is delivered to it.
+    sa_sigaction :
+        is a function pointer that points to the signal handler function that should be called when the signal is received.
+        in our program ft_handler is set as the signal handler for SIGUSR1 and SIGUSR2 signals.
+    sa_mask :
+        this is a set of signals that should be blocked by the process while the signal handler is executing.
+        in our program is initialized using sigemptyset() which sets the signal set to an empty set.
+    sa_flags :
+        this is a set of flags that specify additional options for the signal handler.
+        in our program is set to 0, wich means that no additional options are set.
+    sigaction() function :
+        is a function that is used to set the action taken by a process when a particular signal is delivered to it, it takes 3 arguments :
+            the first argument is the signal number (SIGUSR1 or SIGUSR2) for which the action is being set.
+            the second argument is a pointer to sigaction struct that describes the action to be taken.
+            the last argument is a pointer to sigaction struct that is used to store the previous action, if desired.
+    sigemptyset();
+        is a function that initializes a signal set to be empty.
+    pause() :
+        is a function force a process to pause until a signal is received from kill().
+when sigaction function called, is sets the action for a specified signal to the values specified in the struct sigaction.
+in our program the sigaction is called twice, once for SIGUSR1 and once for SIGUSR2, to set ft_handler function as the signal for these signals.
+
+SIGUSR1 and SIGUSR2 :
+    SIGUSR1 and SIGUSR2 are special signals used by operating systems to indicate a user request.
+    These signals are generally used to send commands or requests to a running process, rather than to signal an error or a stopping condition.
+    The difference between the two is that SIGUSR1 is used to send specific commands or requests to a process, while SIGUSR2 is reserved for a specific use determined by the user.

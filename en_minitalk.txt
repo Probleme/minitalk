@@ -1,4 +1,0 @@
-SIGUSR1 and SIGUSR2 ?
-    SIGUSR1 and SIGUSR2 are user-defined signals in linux and unix like operating systems.
-    they can be used for a variety of purposes, such as communicatiing between processes or signaling specific events in a program.
-    SIGUSR1 :

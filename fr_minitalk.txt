@@ -1,10 +1,119 @@
+Informations :
+    processus?
+        un processus est un programme en cours d'execution par un ordinateur.
+    signal ?
+        un signal est un message electronique qui est utiliser pour communiquer des Informations ou des instructions a un systeme ou un programme.
+    Envoyer des signaux :   
+        la fonction kill est utiliser pour envoyer un signal a un processus ou un groupe de processus.
+
+how the server and client work ?
+    The server program is designed to wait for signals to be sent to it, specifically the SIGUSR1 and SIGUSR2 signals. When it receives these signals, it converts the binary data back into characters and prints them to the screen.
+    The client program, on the other hand, is designed to take a message as input, convert it into binary data, and send it to the server using the SIGUSR1 and SIGUSR2 signals. The client program takes in two arguments, the first one is the PID of the server process and the second one is the message to send.
+    The client program starts by converting the first argument, which is the PID of the server process, into an integer using the ft_atoi() function. Then it enters a while loop, inside of which it calls the ft_send_bits function to send the message character by character. The ft_send_bits function converts each character of the message into binary data and sends it to the server process using the kill function. It sends a SIGUSR1 signal if the current bit is set and a SIGUSR2 signal if the current bit is not set. The function also uses the usleep function to introduce a delay of 200 microseconds between sending each bit, this is done to avoid the signals to be handled in the same time.
+    When the server receives these signals, the ft_handler function is called which is the signal handler for both SIGUSR1 and SIGUSR2 signals. The function reads the received signals and construct a byte from them, it uses a static variable named "bit" that is used to keep track of the current bit position in a byte. It also uses a static variable named "i" that is used to store the byte being constructed. When the function receives 8 bits it means that it constructs a byte, then it prints the ASCII character corresponding to the byte, and reset the "bit" and "i" variables.
+    In summary, the client program converts the message into binary data and sends it to the server process using the SIGUSR1 and SIGUSR2 signals. The server program waits for these signals, converts the received binary data back into characters, and prints them to the screen.
+
+ft_handler function :
+    void ft_handler(int signal): This line declares the function and its parameter "signal" which contains the signal that was received.
+    static int bit; : This line declares the "bit" variable, which is used to keep track of the current bit position in a byte.
+    static int i; : This line declares the "i" variable, which is used to store the byte being constructed.
+    if (signal == SIGUSR1) : This line checks if the signal passed as an argument is SIGUSR1.
+    i |= (1 << bit); : If the signal is SIGUSR1, this line sets the corresponding bit in the "i" variable using the bitwise OR operator. The bitwise OR operator compares each bit of the first operand to the corresponding operand in the second operand. If either bit is 1, the corresponding result bit is set to 1. Otherwise, the corresponding result bit is set to 0.
+    bit++; : This line increments the "bit" variable.
+    if (bit == 8) : This line checks if the "bit" variable is equal to 8, which means that a full byte has been constructed.
+    ft_printf("%c", i); : This line prints the ASCII character corresponding to the byte.
+    bit = 0; : This line resets the "bit" variable to 0.
+    i = 0; : This line resets the "i" variable to 0.
+    This way, the ft_handler function reads the received signals and construct a byte from them. When it receives 8 bits it means that it constructs a byte, then it prints the ASCII character corresponding to the byte, and reset the "bit" and "i" variables to 0.
+
+ft_send_bits function :
+    void ft_send_bits(int pid, char i) : This line declares the function and its parameters "pid" which is the process ID of the server process and "i" which is the character that needs to be sent to the server.
+    int bit; : This line declares the "bit" variable, which is used to keep track of the current bit position in a byte.
+    bit = 0; : This line initializes the "bit" variable to 0.
+    while (bit < 8) : This line starts a while loop that iterates through all the bits in the character "i".
+    if ((i & (1 << bit)) != 0) : This line checks if the bit at the current position is set.
+    kill(pid, SIGUSR1); : If the current bit is set, this line sends a SIGUSR1 signal to the server process using the kill function.
+    else: This line start the else statement if the current bit is not set.
+    kill(pid, SIGUSR2); : If the current bit is not set, this line sends a SIGUSR2 signal to the server process using the kill function.
+    usleep(200); : This line causes the program to sleep for 200 microseconds before proceeding to the next iteration of the loop.
+    bit++; : This line increments the "bit" variable.
+    The ft_send_bits function converts each character of the message into binary data, it iterates through all the bits of the character and for each bit it checks if it's set or not, if it's set it sends a SIGUSR1 signal to the server process, if it's not set it sends a SIGUSR2 signal, it sends these signals via the kill function.
+
+How the message is received to the server ?
+    in the client program, the message is passed as the second argument to the program, it is stored in the variable "argv[2]". The main function of the client starts by converting the first argument, which is the PID of the server process, into an integer using the ft_atoi() function. Then it enters a while loop, inside of which it calls the ft_send_bits function to send the message character by character. The ft_send_bits function converts each character of the message into binary data and sends it to the server process using the kill function. It sends a SIGUSR1 signal if the current bit is set and a SIGUSR2 signal if the current bit is not set.
+    On the server side, the ft_handler function is used as the signal handler for both SIGUSR1 and SIGUSR2 signals. When the server receives these signals, the ft_handler function is called. The function reads the received signals and construct a byte from them, it uses a static variable named "bit" that is used to keep track of the current bit position in a byte. It also uses a static variable named "i" that is used to store the byte being constructed. When the function receives 8 bits it means that it constructs a byte, then it prints the ASCII character corresponding to the byte, and reset the "bit" and "i" variables.
+    This way the client converts the message into binary data, sends it to the server process using the SIGUSR1 and SIGUSR2 signals, the server receives these signals and construct the message character by character, and prints it on the screen.
+
+Signal Fonction :
+    la fonction signal est une fonction qui est utiliser pour gerer les signaux dans un processus.
+    la fonction signal est utiliser pour changer le comportement d'un programme lorsqu'un signal specifique est recue.
+        void (*signal(int sig, void(*func)(int)))(int);
+    le 1ere argument est le numero de signal que la fonction doit gerer, qui est une constante entiere qui represente le signal a gerer (EX: SIGUSR1, SIGUSR2).
+    le 2eme argument est un pointeur vers fonction qui sera appeler lorseque le signal est recue. cette fonction appeler gestionnaire de signal.
+    La fonction signal renvoie un pointeur vers l'ancien gestionnaire de signal pour le signal specifier.
+    lorsq'un signal est livrer a un processus, le processus peut choisir de l'ignorer, de le terminer ou de effectuer une autre action.
+    Dans ce programme la fonction gestionnaire de signal ft_handler est responsable d'effectuer une action lorseque le signal est livrer.
+
 SIGUSR1 et SIGUSR2 ?
-    SIGUSR1 et SIGUSR2 sont des signaux speciaux utiliser pa les systemes d'exploitation pour indiqquer une demande d'utilisateur.
-    Ces signaux sont generalement utilises pour envoyer des commandes ou des demandes a un processus en cours d'excecution, plutot que pour signaler
-        une erreur ou une condition d'arret.
+    SIGUSR1 et SIGUSR2 sont des signaux speciaux utiliser par les systemes d'exploitation pour indiqquer une demande d'utilisateur.
+    Ces signaux sont generalement utilises pour envoyer des commandes ou des demandes a un processus en cours d'excecution, plutot que pour signaler une erreur ou une condition d'arret.
     Les utilisateurs peuvent envoyer des signaux a des processus en cours d'excecution en utilisant des outils tels que "kill, pkill" en ligne de commande.
     La difference entre les deux est que SIGUSR1 est utiliser pour envoyer des commandes ou des demandes specifiques a un processus,
     alors que SIGUSR2 est reserver a un usage specifique determiner par l'utilisateur.
     En general, les processus peuvent choisir de ne pas traiter les signaux usr1 ou usr2 ou de les utiliser de maniere personaliser pour implementeer des fonctionnalites specifiques.
     Dans ce code la fonction ft_handler est declarer pour gerer les deux signaux mais ne traite que SIGUSR1.
 
+kill fonction :
+    la fonction kill est utiliser pour envoyer un signal a un processus ou un groupe de processus.
+    le 1ere argument de la fonction est ID de processus du processus cible ou du groupe de processus,
+    le 2eme argument est le signal a envoyer.
+
+getpid() :
+    Definition :
+        pid is a unique number assigned by the os to a process when it is created.
+    getpid fonction renvoie l'identifiant de processus (PID) du processus (PID) en cours d'excecution.
+
+cc : -I<directory>
+              Add the specified directory to the search path for include files.
+
+bitwise operateur :
+    #include <signal.h>
+
+     void (*signal(int sig, void (*func)(int)))(int);
+
+     or in the equivalent but easier to read typedef'd version:
+
+     typedef void (*sig_t) (int);
+
+     sig_t
+     signal(int sig, sig_t func);
+
+Sigaction struct :   
+    The struct sigaction is used to specify the action taken by a process when a particular signal is delivered to it.
+
+sa_sigaction :
+    is a function pointer that points to the signal handler function that should be called when the signal is received.
+    in this program ft_handler is set as the signal handler for the SIGUSR1 and SIGUSR2 signals.
+
+sa_mask :
+    this is a set of signals that should be blocked by the process while the signal handler is executing.
+    in this program sa_mask is initialized using sigemptyset function wich sets the signal set to an empty set.
+
+sa_flags :
+    this is a set of flags that specify additional options for the signal handler.
+    in our program sa_flags is set to 0, wich means that no additional options are set.
+
+sigemptyset :
+    function initializes a signal set to be empty.
+
+sigaction function :
+    is a function that is used to set the action taken by a process when a particular signal is delivered to it. It takes three arguments:
+    the 1st is the signal number (SIGUSR1 or SIGUSR2) for which the action is being set.
+    the second is a pointer to the sigaction structure that describes the action to be taken.
+    the last is a pointer to sigaction structure that is used to store the previous action, if desired
+
+pause() :
+    this function force a process to pause util a signal is received from kill().
+
+When  the sigaction function is called, it sets the action for a specified signal to the values specified in the struct sigaction.
+in our program the sigaction is called twice, once for SIGUSR1 and once for SIGUSR2, to set ft_handler function as the signal handler for these signals.

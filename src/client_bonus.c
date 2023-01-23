@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 02:06:56 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/01/17 02:08:38 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/01/23 19:37:26 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 static void	ft_confirm(int signal)
 {
-	if (signal == SIGUSR1)
-		ft_printf("\033[0;32mQSL!\033[0;32m\n");
-	else
-		ft_printf("\033[0;32mQSL!\033[0;32m\n");
+	(void)signal;
 }
 
 void	ft_send_bits(int pid, char i)
@@ -27,11 +24,11 @@ void	ft_send_bits(int pid, char i)
 	bit = 0;
 	while (bit < 8)
 	{
-		if ((i & (0x01 << bit)) != 0)
+		if ((i & (1 << bit)))
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(1000);
 		bit++;
 	}
 }
@@ -45,6 +42,11 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
+		if (kill(pid, 0) == -1)
+		{
+			ft_printf("Enter a valid PID\n");
+			return (0);
+		}
 		while (argv[2][i] != '\0')
 		{
 			signal(SIGUSR1, ft_confirm);
@@ -53,12 +55,9 @@ int	main(int argc, char **argv)
 			i++;
 		}
 		ft_send_bits(pid, '\n');
+		ft_printf("Message sent succesfully\n");
 	}
 	else
-	{
-		ft_printf("\033[91mError: wrong format.\033[0m\n");
-		ft_printf("\033[33mTry: ./client_bonus [PID] [MESSAGE]\033[0m\n");
-		return (1);
-	}
+		ft_printf("Error: wrong format.\nTry: ./client_bonus [PID] [MESSAGE]\n");
 	return (0);
 }

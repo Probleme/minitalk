@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 02:08:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/01/17 02:08:09 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/01/21 18:16:11 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_callspecifier(char c, va_list args)
 {
-
 	if (c == '%')
 		return (print_c('%'));
 	else if (c == 'c')

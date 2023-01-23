@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: problem <problem@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 15:05:46 by problem           #+#    #+#             */
-/*   Updated: 2023/01/10 15:05:47 by problem          ###   ########.fr       */
+/*   Updated: 2023/01/21 22:13:55 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_BONUS_H
 # define MINITALK_BONUS_H
 
-#include <stdarg.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/types.h>
-// #include <sys/siginfo.h>
+# include <signal.h>
+# include <stdarg.h>
+# include <unistd.h>
 
 int	ft_atoi(const char *str);
 int	ft_printf(const char *str, ...);

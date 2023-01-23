@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 02:08:15 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/01/17 02:08:16 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/01/21 18:14:53 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_atoi(const char *str)
 {
-    int					i;
+	int					i;
 	unsigned long long	r;
 	int					s;
 
